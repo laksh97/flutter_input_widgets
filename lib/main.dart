@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'checkbox.dart';
+import 'dart:async';
 
 void main() {
   runApp(
@@ -24,12 +26,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _value = "";
-  bool? _val1 = false;
   bool? _val2 = false;
   int? _value1 = 0;
   int? _value2 = 0;
   bool _v1 = false;
   bool _v2 = false;
+  double _vs1 = 0.0;
+  String _dateValue = "";
 
   void _onChange(String value) {
     setState(() {
@@ -40,12 +43,6 @@ class _MyAppState extends State<MyApp> {
   void _onSubmit(String value) {
     setState(() {
       _value = "OnSubmit value is $value";
-    });
-  }
-
-  void _value1Changed(bool? value) {
-    setState(() {
-      _val1 = value;
     });
   }
 
@@ -113,6 +110,26 @@ class _MyAppState extends State<MyApp> {
     return column;
   }
 
+  void _setValue(double value) {
+    setState(() {
+      _vs1 = value;
+    });
+  }
+
+  Future _selectDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2022),
+    );
+    if (picked != null) {
+      setState(() {
+        _dateValue = picked.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +170,7 @@ class _MyAppState extends State<MyApp> {
                     color: Colors.teal,
                   ),
                 ),
-                Checkbox(value: _val1, onChanged: _value1Changed),
+                CheckBox(),
                 Text(
                   "CheckboxListTile",
                   style: TextStyle(
@@ -212,6 +229,24 @@ class _MyAppState extends State<MyApp> {
                     "Switch List Tile",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                ),
+                Text("Value is ${(_vs1 * 100).round()}"),
+                Slider(
+                  value: _vs1,
+                  onChanged: _setValue,
+                ),
+                Text(
+                  "Date Time Picker",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
+                SizedBox(height: 20, width: 20),
+                Text(_dateValue),
+                ElevatedButton(
+                  onPressed: _selectDate,
+                  child: Text("Date Time Picker"),
                 ),
               ],
             ),
