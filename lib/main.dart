@@ -24,6 +24,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _value = "";
+  bool? _val1 = false;
+  bool? _val2 = false;
 
   void _onChange(String value) {
     setState(() {
@@ -34,6 +36,18 @@ class _MyAppState extends State<MyApp> {
   void _onSubmit(String value) {
     setState(() {
       _value = "OnSubmit value is $value";
+    });
+  }
+
+  void _value1Changed(bool? value) {
+    setState(() {
+      _val1 = value;
+    });
+  }
+
+  void _value2Changed(bool? value) {
+    setState(() {
+      _val2 = value;
     });
   }
 
@@ -61,6 +75,16 @@ class _MyAppState extends State<MyApp> {
                 onSubmitted: _onSubmit,
                 autofocus: true,
                 keyboardType: TextInputType.emailAddress,
+              ),
+              Checkbox(value: _val1, onChanged: _value1Changed),
+              CheckboxListTile(
+                value: _val2,
+                onChanged: _value2Changed,
+                activeColor: Colors.blue,
+                title: Text("CheckBoxListTile"),
+                subtitle: Text("SubTitle - checkbox"),
+                controlAffinity: ListTileControlAffinity.leading,
+                secondary: Icon(Icons.archive),
               )
             ],
           ),
